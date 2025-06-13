@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.html
+geocode_cache.db
+.streamlit/secrets.toml
