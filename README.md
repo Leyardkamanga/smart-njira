@@ -4,6 +4,16 @@ Smart Njira is a Streamlit web app that allows you to plan routes anywhere in th
 
 ---
 
+## Who Can Use Smart Njira?
+
+- **Travelers & Tourists:** Plan your trips and explore new cities with walking, driving, or biking routes.
+- **Commuters:** Find the best routes for daily travel by car, bike, or foot.
+- **Delivery & Logistics:** Optimize routes for deliveries or errands.
+- **Students & Researchers:** Study routing, mapping, or geospatial analysis using open data and APIs.
+- **Developers:** Use the app as a template or inspiration for building your own route planning tools.
+
+---
+
 ## Features
 
 - **Plan Routes:** Input origin and destination locations globally and get driving, walking, or biking directions.
