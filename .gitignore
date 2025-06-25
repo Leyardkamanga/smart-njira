@@ -3,3 +3,5 @@ __pycache__/
 *.html
 geocode_cache.db
 .streamlit/secrets.toml
+backend/
+routing/
