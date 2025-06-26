@@ -18,7 +18,7 @@ for key in ['token', 'username', 'history', 'registered', 'route_geojson', 'rout
     if key not in st.session_state:
         st.session_state[key] = None if key != 'history' else []
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://smart-njira-backendd.onrender.com"
 ORS_API_KEY = st.secrets.get('ORS_API_KEY')
 
 # --- Parse coords or location name ---
