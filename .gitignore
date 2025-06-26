@@ -1,7 +1,8 @@
 __pycache__/
 *.pyc
-*.html
-geocode_cache.db
-.streamlit/secrets.toml
-backend/
-routing/
+.env
+*.sqlite3
+*.log
+db.sqlite3
+.vscode/
+.idea/
