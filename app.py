@@ -1,6 +1,6 @@
 import folium
 import streamlit as st
-from streamlit_folium import st_folium
+from streamlit_folium import folium_static
 from folium.plugins import (
     MiniMap, MousePosition, Fullscreen, MeasureControl, Draw, LocateControl
 )
@@ -38,14 +38,13 @@ st.markdown("""
         -webkit-background-clip: text;
         color: transparent;
     }
-
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown('<h1 class="gradient-header">Smart Njira 🌍</h1>', unsafe_allow_html=True)
 st.caption("Plan routes using coordinates or place names. Built with OpenRouteService & OSM.")
 
-# --- Session State for Route History ---
+# --- Session State for History ---
 if 'history' not in st.session_state:
     st.session_state.history = []
 
@@ -55,11 +54,11 @@ if not ORS_API_KEY:
     st.error("Missing OpenRouteService API key.")
     st.stop()
 
-# --- Coordinate System Selection ---
-crs_choice = st.selectbox("📐 Choose Coordinate System", ["WGS 84 (Lat/Lon)", "UTM Zone 36S"])
+# --- Coordinate System ---
+crs_choice = st.selectbox("📐 Coordinate System", ["WGS 84 (Lat/Lon)", "UTM Zone 36S"])
 crs_code = "EPSG:4326" if "WGS" in crs_choice else "EPSG:32736"
 
-# --- Parse input as coordinates or place name ---
+# --- Parse input as coords or name ---
 def parse_location(text):
     pattern = r'^\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)\s*$'
     match = re.match(pattern, text)
@@ -77,7 +76,7 @@ def parse_location(text):
             return (y, x)
     return None
 
-# --- Get directions from ORS API ---
+# --- Get Directions ---
 def get_directions(origin_coords, dest_coords, mode):
     mode_dict = {
         'Car': 'driving-car',
@@ -94,7 +93,7 @@ def get_directions(origin_coords, dest_coords, mode):
     if r.status_code == 200:
         data = r.json()
         route = data['features'][0]['geometry']['coordinates']
-        geojson = data['features'][0]  # full route feature
+        geojson = data['features'][0]
         route_xy = [(y, x) for x, y in route]
         summary = data['features'][0]['properties']['summary']
         distance_km = round(summary['distance'] / 1000, 2)
@@ -111,12 +110,13 @@ tab1, tab2 = st.tabs(["🧭 Plan Route", "📜 History"])
 with tab1:
     st.markdown("### 🗺️ Enter Route Details")
 
-    origin = st.text_input("🟢 Origin (place or coords)", placeholder="e.g., Lilongwe or -14.0, 33.8")
-    destination = st.text_input("🔴 Destination (place or coords)", placeholder="e.g., Blantyre or -15.8, 35.0")
+    origin = st.text_input("🟢 Origin", placeholder="Lilongwe or -14.0, 33.8")
+    destination = st.text_input("🔴 Destination", placeholder="Blantyre or -15.8, 35.0")
     mode = st.selectbox("🚗 Mode of Travel", ["Car", "Walk", "Bike"])
     go = st.button("✨ Get Route")
     placeholder = st.empty()
 
+    # --- Create Map ---
     m = folium.Map(location=[-13.5, 34.0], zoom_start=6, tiles=None)
     folium.TileLayer('OpenStreetMap', attr='© OpenStreetMap contributors').add_to(m)
     folium.TileLayer('CartoDB positron', attr='CartoDB').add_to(m)
@@ -125,8 +125,8 @@ with tab1:
 
     Fullscreen().add_to(m)
     MiniMap(toggle_display=True).add_to(m)
+    MeasureControl(primary_length_unit='kilometers').add_to(m)
     MousePosition().add_to(m)
-    MeasureControl().add_to(m)
     LocateControl().add_to(m)
     Draw(export=True).add_to(m)
     folium.LatLngPopup().add_to(m)
@@ -154,10 +154,7 @@ with tab1:
 
             folium.PolyLine(route_xy, tooltip=tooltip, color="#3399ff", weight=6, opacity=0.8).add_to(m)
 
-            # Save HTML
             m.save("directions.html")
-
-            # Save GeoJSON
             geojson_data = json.dumps({
                 "type": "FeatureCollection",
                 "features": [geojson]
@@ -165,18 +162,15 @@ with tab1:
             with open("route.geojson", "w") as gj:
                 gj.write(geojson_data)
 
-            # Create ZIP
             zip_buffer = io.BytesIO()
             with zipfile.ZipFile(zip_buffer, "w") as zip_file:
                 zip_file.write("directions.html")
                 zip_file.writestr("route.geojson", geojson_data)
             zip_buffer.seek(0)
 
-            # Downloads
             st.download_button("⬇️ Download HTML Map", open("directions.html", "rb"), "directions.html")
-            st.download_button("⬇️ Download Route (ZIP)", zip_buffer, file_name="route_files.zip")
+            st.download_button("⬇️ Download Route (.zip)", zip_buffer, "route_files.zip")
 
-            # Save to history
             st.session_state.history.append({
                 'origin': origin,
                 'destination': destination,
@@ -185,7 +179,7 @@ with tab1:
                 'duration': duration_min
             })
 
-    st_folium(m, width=800, height=600)
+    folium_static(m, width=800, height=600)
 
 # --- TAB 2: History ---
 with tab2:
