@@ -204,6 +204,6 @@ with tab2:
 # --- Branding Footer ---
 st.markdown("""
 <div style='text-align:center; margin-top: 40px; color: #666; font-size: 14px;'>
-    🚀 Built with ❤️ by <strong>Leyard Kamanga</strong> | Powered by Streamlit & OSM
+    🚀 Built by <strong>Leyard Kamanga</strong> | Powered by Streamlit & OSM
 </div>
 """, unsafe_allow_html=True)
