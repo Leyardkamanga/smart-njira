@@ -1,6 +1,6 @@
 import folium
 import streamlit as st
-from streamlit_folium import folium_static
+from streamlit_folium import st_folium
 from folium.plugins import (
     MiniMap, MousePosition, Fullscreen, MeasureControl, Draw, LocateControl
 )
@@ -185,7 +185,7 @@ with tab1:
                 'duration': duration_min
             })
 
-    folium_static(m, width=800, height=600)
+    st_folium(m, width=800, height=600)
 
 # --- TAB 2: History ---
 with tab2:
