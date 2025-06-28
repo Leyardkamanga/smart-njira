@@ -124,7 +124,6 @@ st.markdown(f"""
 with st.sidebar:
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <img src="https://i.imgur.com/JqYeZvn.png" width="80%" style="margin-bottom: 10px;">
         <h2 style="margin-bottom: 5px; color: #00b4db;">SMART NJIRA</h2>
         <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Geospatial Route Intelligence</p>
     </div>
@@ -156,8 +155,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.8rem;">
-        <p>© 2023 SMART NJIRA TECHNOLOGIES</p>
-        <p>Patent Pending</p>
+        
     </div>
     """, unsafe_allow_html=True)
 
@@ -443,7 +441,7 @@ with tab2:
 st.markdown("""
 <div style="position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,20,40,0.9); padding: 10px 20px; text-align: center; border-top: 1px solid rgba(0,150,255,0.2); z-index: 999;">
     <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.8rem; letter-spacing: 0.5px;">
-    <i class="fas fa-satellite-dish" style="margin-right: 8px;"></i> SMART NJIRA GEOSPATIAL AI v2.1 | REAL-TIME PROCESSING | © 2023 ALL RIGHTS RESERVED
+    <i class="fas fa-satellite-dish" style="margin-right: 8px;"></i> BUILT BY LEYARD BOKOLA KAMANGA
     </p>
 </div>
 """, unsafe_allow_html=True)
